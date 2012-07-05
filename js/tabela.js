@@ -9,14 +9,29 @@ window.onload = function () {
 	conteudo = document.getElementById("content");   
 	tab = conteudo.getElementsByTagName("table");
 	tabRow = conteudo.getElementsByTagName("tr");
-	tabRowInit = tabRow;
 	
 	// controle do cabeçalho da tabela:
 	c1 = tabRow[0].getElementsByTagName("td").item(0);
 	c2 = tabRow[0].getElementsByTagName("td").item(1);
 	c3 = tabRow[0].getElementsByTagName("td").item(2);
 	c4 = tabRow[0].getElementsByTagName("td").item(3);
-
+	
+	// Guardando cabeçalhos...
+	cab1 = c1.textContent;	
+	cab2 = c2.textContent;	
+	cab3 = c3.textContent;	
+	cab4 = c4.textContent;	
+	
+	/*
+	map = criaVetor(9,2);
+	for (var ct =0; ct<tabRow.length;ct++){
+		map[ct][0] =  tabRow[ct].getElementsByTagName("td").item(0).textContent;	
+		map[ct][1] =  tabRow[ct].getElementsByTagName("td").item(1).textContent;	
+		map[ct][2] =  tabRow[ct].getElementsByTagName("td").item(2).textContent;	
+		map[ct][3] =  tabRow[ct].getElementsByTagName("td").item(3).textContent;	
+	}
+	*/
+	
 	// efeito onclick:
 	c1.onclick = function() { leitura(1);};
 	c2.onclick = function() { leitura(2);};
@@ -27,12 +42,12 @@ window.onload = function () {
 }
 // ===================================================================================================================================
 function leitura(tipo) {
-	
-	tabRow = tabRowInit;
-	tabRow[0].getElementsByTagName("td").item(0).innerHTML = "Marca";
-	tabRow[0].getElementsByTagName("td").item(1).innerHTML = "Modelo";
-	tabRow[0].getElementsByTagName("td").item(2).innerHTML = "Ano";
-	tabRow[0].getElementsByTagName("td").item(3).innerHTML = "Preço Médio";
+
+	// Retaurando Cabeçalhos...	
+	tabRow[0].getElementsByTagName("td").item(0).innerHTML = cab1;
+	tabRow[0].getElementsByTagName("td").item(1).innerHTML = cab2;
+	tabRow[0].getElementsByTagName("td").item(2).innerHTML = cab3;
+	tabRow[0].getElementsByTagName("td").item(3).innerHTML = cab4;
 	
 	var v1=new Array(), v2=new Array(), v3=new Array(), v4=new Array(), vet= new Array(), vposic=new Array();
 
@@ -44,16 +59,14 @@ function leitura(tipo) {
 		v4[ct] = tabRow[ct+1].getElementsByTagName("td").item(3).textContent;	
 		
 		if (tipo == 1) {
-			vet[ct] = v1[ct] + " | " +  v2[ct] + " | " + v3[ct] + " | " + v4[ct];
-			vposic = [0,1,2,3];
+			vet[ct] = v1[ct] + " | " + v1[ct] + " | " +  v2[ct] + " | " + v3[ct] + " | " + v4[ct];
 		} else if (tipo == 2) {
-			vet[ct] = v2[ct] + " | " +  v1[ct] + " | " + v3[ct] + " | " + v4[ct];
-			vposic = [1,0,2,3];
+			vet[ct] = v2[ct] + " | " + v1[ct] + " | " +  v2[ct] + " | " + v3[ct] + " | " + v4[ct];
 		} else if (tipo == 3) {
-			vet[ct] = v3[ct] + " | " +  v4[ct] + " | " + v1[ct] + " | " + v2[ct];
-			vposic = [2,3,0,1];
+			vet[ct] = v3[ct] + " | " + v1[ct] + " | " +  v2[ct] + " | " + v3[ct] + " | " + v4[ct];
 		} else if (tipo == 4) {
 
+			var bt = " | " + v1[ct] + " | " +  v2[ct] + " | " + v3[ct] + " | " + v4[ct];
 			v4[ct] = v4[ct].replace("R$ ","");	
 			while (v4[ct].indexOf(" ") >= 0){
 				v4[ct] = v4[ct].replace(" ","");
@@ -61,10 +74,8 @@ function leitura(tipo) {
 			while (String(v4[ct].length) < 10){
 				v4[ct] = "0" + String(v4[ct]);
 			}
-			v4[ct] = "R$ " + v4[ct];
 		
-			vet[ct] = v4[ct] + " | " +  v1[ct] + " | " + v2[ct] + " | " + v3[ct];
-			vposic = [1,2,3,0];
+			vet[ct] = v4[ct]  + bt;
 		}		
 	}	
 
@@ -93,13 +104,20 @@ function leitura(tipo) {
 	
 	// 	Preenchendo tabela
 	for (var ct2=0;ct2<vet.length;ct2++){	
-		vet[ct2] = vet[ct2].replace("R$ 00","R$ ");		
-		vet[ct2] = vet[ct2].replace("R$ 0","R$ ");		
 		palavra = vet[ct2].split("|");	//	converte string em vetor...
-
 		for (ct=0;ct<4;ct++){
-			tabRow[ct2+1].getElementsByTagName("td").item(ct).innerHTML = palavra[vposic[ct]];
+			tabRow[ct2+1].getElementsByTagName("td").item(ct).innerHTML = palavra[ct+1];
 		}
 	}	
 }
 // ===================================================================================================================================
+function criaVetor(xDimensions, yDimensions) {	//	cria vetor bidimensional
+	var map = [];
+	for (var xLoop=0; xLoop<xDimensions; xLoop++) {
+		map[xLoop] = [];
+		for (var yLoop=0; yLoop<yDimensions; yLoop++) {
+			map[xLoop][yLoop] = "";    // final value for someArray[x][y] goes here
+		}
+	}
+	return map;
+}
