@@ -22,16 +22,6 @@ window.onload = function () {
 	cab3 = c3.textContent;	
 	cab4 = c4.textContent;	
 	
-	/*
-	map = criaVetor(9,2);
-	for (var ct =0; ct<tabRow.length;ct++){
-		map[ct][0] =  tabRow[ct].getElementsByTagName("td").item(0).textContent;	
-		map[ct][1] =  tabRow[ct].getElementsByTagName("td").item(1).textContent;	
-		map[ct][2] =  tabRow[ct].getElementsByTagName("td").item(2).textContent;	
-		map[ct][3] =  tabRow[ct].getElementsByTagName("td").item(3).textContent;	
-	}
-	*/
-	
 	// efeito onclick:
 	c1.onclick = function() { leitura(1);};
 	c2.onclick = function() { leitura(2);};
@@ -71,7 +61,7 @@ function leitura(tipo) {
 			while (v4[ct].indexOf(" ") >= 0){
 				v4[ct] = v4[ct].replace(" ","");
 			}
-			while (String(v4[ct].length) < 10){
+			while (String(v4[ct].length) < 14){
 				v4[ct] = "0" + String(v4[ct]);
 			}
 		
@@ -91,7 +81,8 @@ function leitura(tipo) {
 		}
 		opc = 1;
 	} else {
-		vet.reverse();		//	ordena vetor...
+		// vet.reverse();		//	ordena vetor...
+		vet = rev(vet);
 		if (temp.indexOf(" - ASC ") > -1){
 			temp = temp.replace(" - ASC "," - DESC ");
 		} else {
@@ -111,13 +102,13 @@ function leitura(tipo) {
 	}	
 }
 // ===================================================================================================================================
-function criaVetor(xDimensions, yDimensions) {	//	cria vetor bidimensional
-	var map = [];
-	for (var xLoop=0; xLoop<xDimensions; xLoop++) {
-		map[xLoop] = [];
-		for (var yLoop=0; yLoop<yDimensions; yLoop++) {
-			map[xLoop][yLoop] = "";    // final value for someArray[x][y] goes here
-		}
+function rev(vet){		//	ordenando vetor ao contrario....
+	vet.sort();
+	var vet2 = new Array();
+	var ct2 = 0;
+	for (var ct=vet.length-1;ct>=0;ct--){
+		vet2[ct] = vet[ct2];
+		ct2++;
 	}
-	return map;
+	return vet2;
 }
